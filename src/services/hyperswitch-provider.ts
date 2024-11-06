@@ -426,7 +426,7 @@ class HyperswitchProviderService extends AbstractPaymentProcessor {
     const encoded = typeof data === "string" ? data : JSON.stringify(data);
     const hashedBody = createHmac(
       "sha512",
-      this.options.webhook_response_hash ?? ""
+      this.webhookKey ?? ""
     )
       .update(encoded, "utf-8")
       .digest("hex");

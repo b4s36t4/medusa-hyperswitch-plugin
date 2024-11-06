@@ -1,6 +1,6 @@
 {
   "name": "medusa-plugin-hyperswitch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A MedusaJS plugin for integrating with hyperswitch",
   "author": "Mahesh Vagicherla (https://maheshvagicherla.dev)",
   "license": "MIT",
