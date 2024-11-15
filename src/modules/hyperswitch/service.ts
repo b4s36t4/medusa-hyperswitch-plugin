@@ -121,14 +121,14 @@ class MyPaymentProviderService extends AbstractPaymentProvider<Options> {
       this.logger.info(
         `[Hyperswitch]: - Payment status is ${paymentInfo.status} - No need to capture`
       );
-      return paymentInfo as unknown as PaymentProviderSessionResponse["data"];
+      return {...paymentInfo, id: (paymentInfo as any).payment_id} as unknown as PaymentProviderSessionResponse["data"];
     }
     try {
       const intent = await client.paymentIntents.capture(paymentId);
       this.logger.info(
         `[Hyperswitch]: Payment Captured with id - ${paymentId}`
       );
-      return intent as unknown as PaymentProviderSessionResponse["data"];
+      return {...intent, id: (intent as any).payment_id} as unknown as PaymentProviderSessionResponse["data"];
     } catch (error) {
       this.logger.error(error);
       return { error: "unknow error happened" };
@@ -179,7 +179,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<Options> {
       const paymentId = (await paymentData.payment_id) as string;
       const cancelIntent = await client.paymentIntents.cancel(paymentId);
       this.logger.info(`[Hyperswitch]: Cancel Payment Successful`);
-      return cancelIntent as unknown as PaymentProviderSessionResponse["data"];
+      return {...cancelIntent, id: (cancelIntent as any).payment_id} as unknown as PaymentProviderSessionResponse["data"];
     } catch (error) {
       // Payment is already cancelled, keep the payment Data in DB as is
       if (
@@ -300,7 +300,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<Options> {
       };
     }
 
-    return { data: sessionData };
+    return { data: {...sessionData, id: sessionData.payment_id} };
   }
   async deletePayment(
     paymentSessionData: Record<string, unknown>
@@ -379,7 +379,8 @@ class MyPaymentProviderService extends AbstractPaymentProvider<Options> {
       return paymentData;
     } catch (error) {
       // Payment session data shouldn't removed, should work even for retries.
-      this.logger.info(`[Hyperswitch]: Refund Payment Failed - ${error}`);
+      console.log(error)
+      this.logger.info(`[Hyperswitch]: Refund Payment Failed`);
       return { error: "Unable to refund payment", ...paymentData };
     }
   }
@@ -397,7 +398,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<Options> {
       const id = paymentSessionData.payment_id as string;
       const paymentInfo = await client.paymentIntents.retrieve(id);
       this.logger.info(`[Hyperswitch]: Retrive Payment successful`);
-      return paymentInfo as unknown as PaymentProviderSessionResponse["data"];
+      return {...paymentInfo, id: (paymentInfo as any).payment_id} as unknown as PaymentProviderSessionResponse["data"];
     } catch (error) {
       this.logger.error(`[Hyperswitch]: Unable to fetch payment info`, error);
       return { error: "Unable to retrieve payment" };
@@ -478,7 +479,7 @@ class MyPaymentProviderService extends AbstractPaymentProvider<Options> {
       );
 
       this.logger.info(
-        `[Hyperswitch]: Webhook event recied with type - ${event.event_type}`
+        `[Hyperswitch]: Webhook event recied with type - ${event.event_type} with payment Id - ${paymentIntent.payment_id}`
       );
 
       switch (event.event_type as WebhookEvent) {
@@ -519,6 +520,12 @@ class MyPaymentProviderService extends AbstractPaymentProvider<Options> {
               ...paymentIntent,
             },
           });
+
+          if (!result.success) {
+            this.logger.info(
+              `[Webhook]: Refund status update failed - ${result.error}`
+            );
+          }
         }
         default:
           return { action: PaymentActions.NOT_SUPPORTED };

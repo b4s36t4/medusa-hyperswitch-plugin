@@ -16,7 +16,7 @@ export const updateRefundStatus = createStep<
   //   if (!customer_id) {
   //     return;
   //   }
-  console.log(context.container.cache, "cache");
+  console.log(context.container.registrations, "cache");
   //   const customerService = context.container.resolve("customer");
   //   const logger = context.container.resolve("logger");
   //   if (!customerService) {
