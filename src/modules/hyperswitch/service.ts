@@ -365,9 +365,6 @@ class MyPaymentProviderService extends AbstractPaymentProvider<Options> {
       const refunedResult = await client.refunds.create({
         payment_id: paymentId,
         amount: refundAmount,
-        metadata: {
-          session_id: sessionId,
-        },
       } as any);
 
       this.logger.info(
