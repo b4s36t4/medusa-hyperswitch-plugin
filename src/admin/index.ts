@@ -1,1 +1,1 @@
-export * from "./widgets/hyperswitch-settings";
+export {};

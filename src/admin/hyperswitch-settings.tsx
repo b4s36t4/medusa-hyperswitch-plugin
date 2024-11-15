@@ -1,7 +1,6 @@
-import { defineWidgetConfig } from "@medusajs/admin-sdk";
 import { Container, Heading } from "@medusajs/ui";
 
-const ProductWidget = () => {
+const Settings = () => {
   return (
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
@@ -11,8 +10,4 @@ const ProductWidget = () => {
   );
 };
 
-export const config = defineWidgetConfig({
-  zone: "api_key.list.after",
-});
-
-export default ProductWidget;
+export { Settings };
