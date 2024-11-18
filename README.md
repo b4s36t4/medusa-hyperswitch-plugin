@@ -99,3 +99,9 @@ Make sure to pass the information related to customer, billing_address and email
 
 [Click here](https://github.com/b4s36t4/medusa-hs-store/blob/13d791a51dc40f4e03a0a96d95535ea30e6b5cc9/src/modules/checkout/components/payment/index.tsx#L92) to see example implementation of the above function on how to pass the extra information.
 
+#### Payment flow with Hyperswitch
+
+![image](https://github.com/user-attachments/assets/621ab994-609c-4431-86a7-e4365bcaab90)
+
+
+
