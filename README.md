@@ -84,3 +84,18 @@ https://<medusa-base-url:<?port>>/hooks/payment/hyperswitch_hyperswitch
 ```
 
 > We don't need to add `pp` before, we just need to add the provider name. 
+
+### Setting up Storefront.
+
+Medusa does have ax example storefront built with Next.js, we can use that storefront to extend the hyperswitch payment method. 
+
+You can also find the example storefront available [Here](url)
+
+### Storefront Payment session creation.
+
+The `medusa-hyperswitch-plugin` expects some extra data when creating a payment intent. This needs to be passed from storefront.
+
+Make sure to pass the information related to customer, billing_address and email to the `sdk.store.payment.initiatePaymentSession` function which will then passed to the plugin.
+
+[Click here](https://github.com/b4s36t4/medusa-hs-store/blob/13d791a51dc40f4e03a0a96d95535ea30e6b5cc9/src/modules/checkout/components/payment/index.tsx#L92) to see example implementation of the above function on how to pass the extra information.
+
