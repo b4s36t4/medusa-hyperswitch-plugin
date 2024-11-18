@@ -6,7 +6,7 @@ You can install this plugin from npm using the following command.
 npm install git@github.com:b4s36t4/medusa-hyperswitch-plugin.git#feat/v2
 ```
 
-> This requires `typescript` as a peer depednecy, make sure you project have `typescript` installed.
+> This requires `typescript` as a peer depednecy, make sure your project have `typescript` installed.
 
 Or
 
